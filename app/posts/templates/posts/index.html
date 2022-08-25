@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    Blueprint Title
+{% endblock %}
+
+{% block content_title %}
+    Posts
+{% endblock %}
+
+{% block content %}
+
+
+
+{% for post in pages.items %}
+<p>
+    <a href= "{{  url_for('posts.post_detail', slug=post.slug) }}"> {{ post.title }} </a>
+</p>
+{%endfor%}
+
+{% if q %}
+    {% set q='&q=%s' % q %}
+
+    <nav aria-label="...">
+        <ul class="pagination">
+        <li {% if not pages.has_prev %}
+                    class="disabled page-item"
+                {% else%}
+                    class="page-item"    
+                {%endif%}>
+
+                <a class="page-link" href="./?page={{ pages.prev_num }}{{q}}" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+
+        {% for page in pages.iter_pages() %}
+            <li aria-current="page"
+                {% if page == pages.page %} 
+                    class="page-item active" 
+                {% else %}   
+                    class="page-item" 
+                {% endif %}>
+                    <a class="page-link" href="./?page={{ page }}{{q}}">{{ page }}</a>
+            </li>
+        {%endfor%}
+        
+        
+        <li {% if not pages.has_next %}
+                class="disabled page-item"
+            {% else%}
+                class="page-item"    
+            {%endif%}>
+            <a class="page-link" href="./?page={{ pages.next_num }}{{q}}">Next</a>
+        </li>
+        </ul>
+    </nav>
+{% else %}
+    <nav aria-label="...">
+        <ul class="pagination">
+        <li {% if not pages.has_prev %}
+                    class="disabled page-item"
+                {% else%}
+                    class="page-item"    
+                {%endif%}>
+
+                <a class="page-link" href="./?page={{ pages.prev_num }}" tabindex="-1" aria-disabled="true">Previous</a>
+        </li>
+
+        {% for page in pages.iter_pages() %}
+            <li aria-current="page"
+                {% if page == pages.page %} 
+                    class="page-item active" 
+                {% else %}   
+                    class="page-item" 
+                {% endif %}>
+                    <a class="page-link" href="./?page={{ page }}">{{ page }}</a>
+            </li>
+        {%endfor%}
+        
+        
+        <li {% if not pages.has_next %}
+                class="disabled page-item"
+            {% else%}
+                class="page-item"    
+            {%endif%}>
+            <a class="page-link" href="./?page={{ pages.next_num }}">Next</a>
+        </li>
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}
