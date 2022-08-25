@@ -52,7 +52,7 @@ class Tag(db.Model):
     
 
     def __repr__(self):
-        return f'Tag id: {self.id}, name: {self.name}'
+        return f'{self.name}'
 
 
 
